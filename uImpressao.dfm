@@ -4,7 +4,7 @@ object frmImpressao: TfrmImpressao
   BorderIcons = [biSystemMenu]
   Caption = 'frmImpressao'
   ClientHeight = 201
-  ClientWidth = 398
+  ClientWidth = 438
   Color = clBtnFace
   Font.Charset = DEFAULT_CHARSET
   Font.Color = clWindowText
@@ -17,7 +17,7 @@ object frmImpressao: TfrmImpressao
   object pnlFundo: TPanel
     Left = 0
     Top = 0
-    Width = 398
+    Width = 438
     Height = 152
     Align = alClient
     BevelOuter = bvLowered
@@ -41,16 +41,15 @@ object frmImpressao: TfrmImpressao
     object RadioGroup1: TRadioGroup
       Left = 226
       Top = 24
-      Width = 113
+      Width = 151
       Height = 97
       BiDiMode = bdLeftToRight
       Caption = 'Formato'
-      ItemIndex = 3
+      ItemIndex = 2
       Items.Strings = (
-        'PDF'
         'XLSX'
         'TXT'
-        'VER EM TELA')
+        'VER EM TELA / PDF')
       ParentBiDiMode = False
       ShowFrame = False
       TabOrder = 0
@@ -80,7 +79,7 @@ object frmImpressao: TfrmImpressao
   object pnlButton: TPanel
     Left = 0
     Top = 152
-    Width = 398
+    Width = 438
     Height = 49
     Align = alBottom
     BevelOuter = bvLowered
@@ -131,6 +130,7 @@ object frmImpressao: TfrmImpressao
     Top = 32
   end
   object qUsuariosImpressao: TFDQuery
+    Connection = DM.fdConexao
     SQL.Strings = (
       'SELECT t.USERNAME,'
       '       t.NOME,'
@@ -140,8 +140,8 @@ object frmImpressao: TfrmImpressao
         'S ATIVO,'
       '       t.ULTLOGIN'
       '  FROM TBUSUARIO t')
-    Left = 328
-    Top = 96
+    Left = 344
+    Top = 112
   end
   object rel_usuarios: TfrxReport
     Version = '2024.1.2'
