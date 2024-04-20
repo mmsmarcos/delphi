@@ -1,0 +1,37 @@
+object dmBanco: TdmBanco
+  OnCreate = DataModuleCreate
+  Height = 310
+  Width = 610
+  object fdConexao: TFDConnection
+    Params.Strings = (
+      'Server=localhost'
+      'Port=3050'
+      'Protocol=TCPIP'
+      'User_Name=sysdba'
+      'Password=Master-sabia23'
+      
+        'Database=C:\Users\Marcos Miguel\OneDrive\Projetos\Sistemas\Scopo' +
+        '\banco\SABIA.DFB'
+      'DriverID=FB')
+    Connected = True
+    LoginPrompt = False
+    Left = 65
+    Top = 32
+  end
+  object qParam: TFDQuery
+    Connection = fdConexao
+    SQL.Strings = (
+      'SELECT t2.RAZAOSOCIAL ||'#39' CNPJ:'#39'|| t2.CGC AS "EMPRESA",'
+      '       t.DEFAULTTELA '
+      '  FROM TBPARAM t  JOIN TBEMPRESA t2 ON t.EMPRESA = t2.IDEMPRESA')
+    Left = 64
+    Top = 102
+    object qParamEMPRESA: TStringField
+      FieldName = 'EMPRESA'
+      Size = 160
+    end
+    object qParamDEFAULTTELA: TIntegerField
+      FieldName = 'DEFAULTTELA'
+    end
+  end
+end

@@ -1,0 +1,72 @@
+unit uListaEmpresa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.StdCtrls, Vcl.Buttons, Vcl.ExtCtrls;
+
+type
+  TfrmListaEmpresa = class(TForm)
+    DBGrid1: TDBGrid;
+    pnl_Top: TPanel;
+    SpeedButton1: TSpeedButton;
+    cbxItemTabela: TComboBox;
+    edtPesquisa: TEdit;
+    pnl_Button: TPanel;
+    btnInserir: TButton;
+    btnAlterar: TButton;
+    btnVoltar: TButton;
+    btnImprimir: TButton;
+    procedure FormShow(Sender: TObject);
+    procedure btnInserirClick(Sender: TObject);
+    procedure btnAlterarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmListaEmpresa: TfrmListaEmpresa;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM, uCadastroEmpresa;
+
+
+
+procedure TfrmListaEmpresa.btnAlterarClick(Sender: TObject);
+var
+  cadEmpresa : TfrmCadastroEmpresa;
+begin
+  cadEmpresa := TfrmCadastroEmpresa.Create(Self);
+  cadEmpresa.acao := 2;
+  cadEmpresa.Show;
+end;
+
+procedure TfrmListaEmpresa.btnInserirClick(Sender: TObject);
+var
+  cadEmpresa : TfrmCadastroEmpresa;
+begin
+  cadEmpresa := TfrmCadastroEmpresa.Create(Self);
+  cadEmpresa.acao := 1;
+  cadEmpresa.Show;
+end;
+
+procedure TfrmListaEmpresa.FormShow(Sender: TObject);
+Var
+  I : Integer;
+begin
+  DM.qEmpresa.Active := true;
+
+  for I := 0 to DM.qEmpresa.FieldCount -1 do
+  cbxItemTabela.Items.Add(DM.qEmpresa.Fields[i].DisplayName);
+
+  cbxItemTabela.ItemIndex := 0;
+end;
+
+end.

@@ -1,0 +1,60 @@
+unit uFuncoes;
+
+interface
+
+uses
+  IdHashMessageDigest, Vcl.Forms, Vcl.Controls, Vcl.Buttons, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Vcl.Graphics;
+
+  function MD5(const Value: string): string;
+  procedure ValidaCampos(Form : TForm);
+
+
+
+implementation
+
+
+uses System.SysUtils, uAvisos, uCadastroUsuario;
+
+//Função para criptografar a senha.
+function MD5(const Value: string): string;
+var
+  vMD5: TIdHashMessageDigest5;
+begin
+
+  vMD5 := TIdHashMessageDigest5.Create;
+  try
+    Result := LowerCase( vMD5.HashStringAsHex(Value));
+  finally
+    vMD5.Free;
+  end;
+end;
+
+//Valida Campos
+procedure ValidaCampos(Form : TForm);
+var
+  I : Integer;
+begin
+
+  for I := 0 to Form.ComponentCount -1 do
+  begin
+      //TEdit
+      if Form.Components[I]is TCustomEdit then
+      begin
+
+        if ((Form.Components[I] as TEdit).Text = EmptyStr) then
+        begin
+          Application.CreateForm(TfrmAvisos, frmAvisos);
+          frmAvisos.lblMensagem.Caption := ((Form.Components[I] as TEdit).Name);
+          frmAvisos.ShowModal;
+          Abort;
+        end;
+      end;
+    end;
+end;
+
+
+{ Tfuncao }
+
+
+
+end.

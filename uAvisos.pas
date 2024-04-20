@@ -1,0 +1,39 @@
+unit uAvisos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls,
+  Vcl.Imaging.pngimage;
+
+type
+  TfrmAvisos = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    Label1: TLabel;
+    Image1: TImage;
+    Label2: TLabel;
+    Panel3: TPanel;
+    lblMensagem: TLabel;
+    procedure Panel3Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmAvisos: TfrmAvisos;
+
+implementation
+
+{$R *.dfm}
+
+procedure TfrmAvisos.Panel3Click(Sender: TObject);
+begin
+Close;
+frmAvisos := nil;
+end;
+
+end.

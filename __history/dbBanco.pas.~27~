@@ -1,0 +1,79 @@
+unit dbBanco;
+
+interface
+
+uses
+  System.SysUtils, System.Classes, FireDAC.Stan.Intf, FireDAC.Stan.Option,
+  FireDAC.Stan.Error, FireDAC.UI.Intf, FireDAC.Phys.Intf, FireDAC.Stan.Def,
+  FireDAC.Stan.Pool, FireDAC.Stan.Async, FireDAC.Phys, FireDAC.VCLUI.Wait,
+  Data.DB, FireDAC.Comp.Client, FireDAC.Phys.FB, FireDAC.Phys.FBDef,
+  FireDAC.Stan.Param, FireDAC.DatS, FireDAC.DApt.Intf, FireDAC.DApt,
+  FireDAC.Comp.DataSet, System.IniFiles;
+
+type
+  TdmBanco = class(TDataModule)
+    fdConexao: TFDConnection;
+    qParam: TFDQuery;
+    qParamEMPRESA: TStringField;
+    qParamDEFAULTTELA: TIntegerField;
+    qListaUsuario: TFDQuery;
+    dsListaUsuarios: TDataSource;
+    procedure DataModuleCreate(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  dmBanco: TdmBanco;
+
+implementation
+
+uses
+  Vcl.Dialogs, Vcl.Forms;
+
+{%CLASSGROUP 'Vcl.Controls.TControl'}
+
+{$R *.dfm}
+
+procedure TdmBanco.DataModuleCreate(Sender: TObject);
+Var
+ArqIni : TMemIniFile;
+begin
+  if not FileExists('sabia.ini') then
+    begin
+      ShowMessage('Erro ao ler o arquivo de configuração. O arquivo não foi encontrado! ');    //Colocar Mensagem Personalizada
+      Application.Terminate;
+    end else
+            Try
+            if fdConexao.Connected = False then
+            begin
+
+                ArqIni := TMemIniFile.Create('sabia.ini');
+                ArqIni.ReadString('DATABASE', 'Arquivo', '');
+
+
+                fdConexao.Params.DriverID            := ArqIni.ReadString('DATABASE', 'DriverID', '');
+                fdConexao.Params.Values['Protocolo'] := ArqIni.ReadString('DATABASE', 'Protocolo', '');
+                fdConexao.Params.Values['Server']    := ArqIni.ReadString('DATABASE', 'Server', '');
+                fdConexao.Params.Values['Port']      := ArqIni.ReadString('DATABASE', 'Port', '');
+                fdConexao.Params.Database            := ArqIni.ReadString('DATABASE', 'Arquivo', '');
+                fdConexao.Params.UserName            := 'sysdba';
+                fdConexao.Params.Password            := 'Master-sabia23';
+
+                ArqIni.Free;
+
+                fdConexao.Connected := True;
+
+
+            end;
+
+            except
+              on E: Exception do
+                ShowMessage('Erro ao conectar ao banco de dados!' + E.Message);    //Colocar Mensagem Personalizada
+
+            End;
+end;
+
+end.

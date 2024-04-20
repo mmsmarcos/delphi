@@ -1,0 +1,34 @@
+object dmBanco: TdmBanco
+  OnCreate = DataModuleCreate
+  Height = 388
+  Width = 762
+  PixelsPerInch = 120
+  object fdConexao: TFDConnection
+    Params.Strings = (
+      'Server=localhost'
+      'Port=3050'
+      'Protocol=TCPIP'
+      'User_Name=sysdba'
+      'Password=masterkey'
+      'DriverID=FB')
+    LoginPrompt = False
+    Left = 81
+    Top = 40
+  end
+  object qParam: TFDQuery
+    Connection = fdConexao
+    SQL.Strings = (
+      'SELECT t2.RAZAOSOCIAL ||'#39' CNPJ:'#39'|| t2.CGC AS "EMPRESA",'
+      '       t.DEFAULTTELA '
+      '  FROM TBPARAM t  JOIN TBEMPRESA t2 ON t.EMPRESA = t2.IDEMPRESA')
+    Left = 80
+    Top = 128
+    object qParamEMPRESA: TStringField
+      FieldName = 'EMPRESA'
+      Size = 160
+    end
+    object qParamDEFAULTTELA: TIntegerField
+      FieldName = 'DEFAULTTELA'
+    end
+  end
+end

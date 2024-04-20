@@ -1,0 +1,86 @@
+object dmBanco: TdmBanco
+  OnCreate = DataModuleCreate
+  Height = 388
+  Width = 762
+  PixelsPerInch = 120
+  object fdConexao: TFDConnection
+    Params.Strings = (
+      'Server=localhost'
+      'Port=3050'
+      'Protocol=TCPIP'
+      'User_Name=sysdba'
+      'Password=masterkey'
+      'DriverID=FB')
+    LoginPrompt = False
+    Left = 81
+    Top = 40
+  end
+  object qParam: TFDQuery
+    Connection = fdConexao
+    SQL.Strings = (
+      'SELECT t2.RAZAOSOCIAL ||'#39' CNPJ:'#39'|| t2.CGC AS "EMPRESA",'
+      '       t.DEFAULTTELA '
+      '  FROM TBPARAM t  JOIN TBEMPRESA t2 ON t.EMPRESA = t2.IDEMPRESA')
+    Left = 80
+    Top = 128
+    object qParamEMPRESA: TStringField
+      FieldName = 'EMPRESA'
+      Size = 160
+    end
+    object qParamDEFAULTTELA: TIntegerField
+      FieldName = 'DEFAULTTELA'
+    end
+  end
+  object qListaUsuario: TFDQuery
+    ObjectView = False
+    Connection = fdConexao
+    SQL.Strings = (
+      'SELECT t.USERNAME,'
+      '       t.NOME,'
+      '       t.EMAIL,'
+      
+        '       CASE WHEN (t.ATIVO = 1) THEN '#39'Ativo'#39' ELSE '#39'Inativo'#39' END A' +
+        'S ATIVO,'
+      '       t.ULTLOGIN'
+      '  FROM TBUSUARIO t')
+    Left = 384
+    Top = 160
+    object qListaUsuarioUSERNAME: TStringField
+      FieldName = 'USERNAME'
+      Origin = 'USERNAME'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+      Size = 30
+    end
+    object qListaUsuarioNOME: TStringField
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      Required = True
+      Size = 150
+    end
+    object qListaUsuarioEMAIL: TStringField
+      FieldName = 'EMAIL'
+      Origin = 'EMAIL'
+      Required = True
+      Size = 60
+    end
+    object qListaUsuarioATIVO: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'ATIVO'
+      Origin = 'ATIVO'
+      ProviderFlags = []
+      ReadOnly = True
+      FixedChar = True
+      Size = 7
+    end
+    object qListaUsuarioULTLOGIN: TSQLTimeStampField
+      FieldName = 'ULTLOGIN'
+      Origin = 'ULTLOGIN'
+    end
+  end
+  object dsListaUsuario: TDataSource
+    DataSet = qListaUsuario
+    Left = 504
+    Top = 160
+  end
+end

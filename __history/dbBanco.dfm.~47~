@@ -1,0 +1,58 @@
+object dmBanco: TdmBanco
+  OnCreate = DataModuleCreate
+  Height = 559
+  Width = 1049
+  PixelsPerInch = 120
+  object fdConexao: TFDConnection
+    Params.Strings = (
+      'Server=localhost'
+      'Port=3050'
+      'Protocol=TCPIP'
+      'User_Name=sysdba'
+      'Password=Master-sabia23'
+      
+        'Database=C:\Users\Marcos Miguel\OneDrive\Projetos\Sistemas\Scopo' +
+        '\banco\SABIA.DFB'
+      'DriverID=FB')
+    Connected = True
+    LoginPrompt = False
+    Left = 81
+    Top = 40
+  end
+  object qParam: TFDQuery
+    Connection = fdConexao
+    SQL.Strings = (
+      'SELECT t2.RAZAOSOCIAL ||'#39' CNPJ:'#39'|| t2.CGC AS "EMPRESA",'
+      '       t.DEFAULTTELA '
+      '  FROM TBPARAM t  JOIN TBEMPRESA t2 ON t.EMPRESA = t2.IDEMPRESA')
+    Left = 80
+    Top = 128
+    object qParamEMPRESA: TStringField
+      FieldName = 'EMPRESA'
+      Size = 160
+    end
+    object qParamDEFAULTTELA: TIntegerField
+      FieldName = 'DEFAULTTELA'
+    end
+  end
+  object qListaUsuario: TFDQuery
+    Connection = fdConexao
+    SQL.Strings = (
+      'SELECT t.USERNAME,'
+      '       t.NOME,'
+      '       t.EMAIL,'
+      
+        '       CASE WHEN (t.ATIVO = 1) THEN '#39'Ativo'#39' ELSE '#39'Inativo'#39' END A' +
+        'S ATIVO,'
+      '       t.ULTLOGIN,'
+      '       t.PASSWORD'
+      '  FROM TBUSUARIO t')
+    Left = 528
+    Top = 104
+  end
+  object dsListaUsuarios: TDataSource
+    DataSet = qListaUsuario
+    Left = 528
+    Top = 184
+  end
+end
