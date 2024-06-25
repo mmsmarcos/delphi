@@ -14,7 +14,16 @@ uses
   uImpressao in 'uImpressao.pas' {frmImpressao},
   uListaEmpresa in 'uListaEmpresa.pas' {frmListaEmpresa},
   uDM in 'uDM.pas' {TDataModule: TDataModule},
-  uCadastroEmpresa in 'uCadastroEmpresa.pas' {frmCadastroEmpresa};
+  uCadastroEmpresa in 'uCadastroEmpresa.pas' {frmCadastroEmpresa},
+  uListagemVeiculos in 'uListagemVeiculos.pas' {frmListagemVeiculos},
+  uCadastroVeiculos in 'uCadastroVeiculos.pas' {frmCadastroVeiculos},
+  uEstados in 'uEstados.pas' {frmEstados},
+  uListagemPessoa in 'uListagemPessoa.pas' {frmListagemPessoa},
+  uCadastroPessoa in 'uCadastroPessoa.pas' {frmCadastroPessoa},
+  uTipoPessoa in 'uTipoPessoa.pas' {frmTipoPessoa},
+  uConsultaVeiculo in 'uConsultaVeiculo.pas' {frmConsultaVeiculo},
+  uConsultaPessoa in 'uConsultaPessoa.pas' {frmConsultaPessoa},
+  uConsultaPortaria in 'uConsultaPortaria.pas' {frmPortaria};
 
 {$R *.res}
 
@@ -24,9 +33,9 @@ begin
   frmLogin := TfrmLogin.Create(nil);
   frmLogin.ShowModal;
 
+  Application.CreateForm(TDM, DM);
   Application.CreateForm(TfrmPrincipal, frmPrincipal);
   Application.CreateForm(TfrmLogin, frmLogin);
-  Application.CreateForm(TDM, DM);
   frmLogin.Hide;
   frmLogin.Free;
 

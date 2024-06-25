@@ -1,0 +1,187 @@
+unit uMovimentacao;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.StdCtrls, Vcl.ExtCtrls, Data.DB,
+  Vcl.Grids, Vcl.DBGrids, Vcl.Buttons, System.Actions, Vcl.ActnList,
+  Datasnap.DBClient, FireDAC.Stan.Intf, FireDAC.Stan.Option, FireDAC.Stan.Param,
+  FireDAC.Stan.Error, FireDAC.DatS, FireDAC.Phys.Intf, FireDAC.DApt.Intf,
+  FireDAC.Stan.Async, FireDAC.DApt, FireDAC.Comp.DataSet, FireDAC.Comp.Client;
+
+type
+  TfrmMovimentacao = class(TForm)
+    pnl_Top: TPanel;
+    pnl_Client: TPanel;
+    pnl_Button: TPanel;
+    Button1: TButton;
+    Timer1: TTimer;
+    edtVeiculo: TEdit;
+    Label2: TLabel;
+    SpeedButton1: TSpeedButton;
+    Label3: TLabel;
+    SpeedButton2: TSpeedButton;
+    Memo1: TMemo;
+    Label4: TLabel;
+    Button2: TButton;
+    Label1: TLabel;
+    Button3: TButton;
+    Label5: TLabel;
+    edtResponsavel: TEdit;
+    Label6: TLabel;
+    Button4: TButton;
+    Label7: TLabel;
+    Label8: TLabel;
+    memoPessoa: TMemo;
+    Memo2: TMemo;
+    qPortaria: TFDQuery;
+    qPortPessoa: TFDQuery;
+    edtIDVeiculo: TEdit;
+    qMaxId: TFDQuery;
+    qMaxIdIDPORTARIA: TIntegerField;
+    procedure Timer1Timer(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure SpeedButton2Click(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure Action1Execute(Sender: TObject);
+    procedure Action2Execute(Sender: TObject);
+    procedure Button1Click(Sender: TObject);
+    procedure Button4Click(Sender: TObject);
+    procedure Button2Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmMovimentacao: TfrmMovimentacao;
+
+implementation
+
+{$R *.dfm}
+
+uses uConsultaPessoa, uConsultaVeiculo, uDM, uConsultaPortaria, uErro, uAvisos,
+  uOk, uPrincipal;
+
+procedure TfrmMovimentacao.Action1Execute(Sender: TObject);
+Var
+  consultaPessoa : TfrmConsultaPessoa;
+begin
+  consultaPessoa := TfrmConsultaPessoa.Create(Self);
+  consultaPessoa.ShowModal;
+end;
+
+procedure TfrmMovimentacao.Action2Execute(Sender: TObject);
+Var
+  consultaVeiculo : TfrmConsultaVeiculo;
+begin
+  consultaVeiculo := TfrmConsultaVeiculo.Create(Self);
+  consultaVeiculo.Tag := 2;
+  consultaVeiculo.ShowModal;
+end;
+
+procedure TfrmMovimentacao.Button1Click(Sender: TObject);
+begin
+Close;
+frmMovimentacao := nil;
+end;
+
+procedure TfrmMovimentacao.Button2Click(Sender: TObject);
+var
+  erro : TfrmErro;
+  aviso: TfrmAvisos;
+  OK : TfrmOk;
+  i : Integer;
+begin
+  if edtVeiculo.Text = EmptyStr then
+    ShowMessage('Campos obrigatórios não preenchidos!')
+    else
+      begin
+        Try
+          begin
+            with qPortaria do
+              begin
+                Close;
+                SQL.Clear;
+                SQL.Add('INSERT INTO TBPORTARIA (IDEMPRESA, IDVEICULO, DATAENTRADA, RESPONSAVEL, OBSERVACAO) '+
+                        ' VALUES (:IDEMPRESA, :IDVEICULO, :DATAENTRADA, :RESPONSAVEL, :OBSERVACAO) ');
+                ParamByName('IDEMPRESA').Value   := frmPrincipal.IDEMPRESA.Caption;
+                ParamByName('IDVEICULO').Value   := edtIDVeiculo.Text;
+                ParamByName('DATAENTRADA').Value := Now;
+                ParamByName('RESPONSAVEL').Value := edtResponsavel.Text;
+                ParamByName('OBSERVACAO').Value  := Memo1.Text;
+                ExecSQL;
+              end;
+
+            with qPortPessoa do
+              begin
+                i := 0;
+                Close;
+                SQL.Clear;
+                while i <= Memo2.Lines.Count do
+                  begin
+                    qMaxId.ParamByName('IDEMPRESA').Value := frmPrincipal.IDEMPRESA.Caption;
+                    qMaxId.Open;
+                    SQL.Add('INSERT INTO TBPORTPESSOA (IDEMPRESA, IDPORTARIA, IDPESSOA, IDSEQ) '+
+                            ' VALUES (:IDEMPRESA, :IDPORTARIA, :IDPESSOA, :IDSEQ) ');
+                    ParamByName('IDEMPRESA').Value  := frmPrincipal.IDEMPRESA.Caption;
+                    ParamByName('IDPORTARIA').Value := qMaxIdIDPORTARIA.Value;
+                    ParamByName('IDPESSOA').Value   := Memo2.Lines[i];
+                    ParamByName('IDSEQ').Value      := i;
+                    ExecSQL;
+                    i := i + 1;
+                  end;
+                  OK := TfrmOk.Create(Self);
+                  OK.ShowModal;
+              end;
+
+          end;
+          except
+            on E: Exception do
+              begin
+                erro := TfrmErro.Create(Self);
+                erro.Memo1.Lines.Text := 'Erro ao tentar salvar o registro. '+E.Message;
+                erro.ShowModal;
+              end;
+        End;
+
+      end;
+end;
+
+procedure TfrmMovimentacao.Button4Click(Sender: TObject);
+Var
+  consultaPortaria : TfrmPortaria;
+begin
+  consultaPortaria := TfrmPortaria.Create(Self);
+  consultaPortaria.ShowModal;
+end;
+
+procedure TfrmMovimentacao.FormShow(Sender: TObject);
+begin
+edtVeiculo.SetFocus;
+end;
+
+procedure TfrmMovimentacao.SpeedButton1Click(Sender: TObject);
+Var
+  consultaVeiculo : TfrmConsultaVeiculo;
+begin
+  consultaVeiculo := TfrmConsultaVeiculo.Create(Self);
+  consultaVeiculo.ShowModal;
+end;
+
+procedure TfrmMovimentacao.SpeedButton2Click(Sender: TObject);
+Var
+  consultaPessoa : TfrmConsultaPessoa;
+begin
+  consultaPessoa := TfrmConsultaPessoa.Create(Self);
+  consultaPessoa.ShowModal;
+end;
+
+procedure TfrmMovimentacao.Timer1Timer(Sender: TObject);
+begin
+  Label1.Caption := TimeToStr(Time);
+end;
+
+end.

@@ -1,0 +1,52 @@
+unit uListagemPessoa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Grids,
+  Vcl.DBGrids, Vcl.Buttons, Vcl.ExtCtrls;
+
+type
+  TfrmListagemPessoa = class(TForm)
+    pnl_Top: TPanel;
+    SpeedButton1: TSpeedButton;
+    cbxItemTabela: TComboBox;
+    edtPesquisa: TEdit;
+    DBGrid1: TDBGrid;
+    pnl_Button: TPanel;
+    btnInserir: TButton;
+    btnAlterar: TButton;
+    btnVoltar: TButton;
+    btnImprimir: TButton;
+    procedure btnInserirClick(Sender: TObject);
+    procedure btnVoltarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmListagemPessoa: TfrmListagemPessoa;
+
+implementation
+
+{$R *.dfm}
+
+uses uCadastroPessoa, uDM;
+
+procedure TfrmListagemPessoa.btnInserirClick(Sender: TObject);
+begin
+  Application.CreateForm(TfrmCadastroPessoa, frmCadastroPessoa);
+  frmCadastroPessoa.Tag := 1; //Incluir
+  frmCadastroPessoa.ShowModal;
+end;
+
+procedure TfrmListagemPessoa.btnVoltarClick(Sender: TObject);
+begin
+Close;
+frmListagemPessoa := nil;
+end;
+
+end.

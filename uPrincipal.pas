@@ -33,6 +33,8 @@ type
     pnl_report: TPanel;
     btn_ReportMov: TSpeedButton;
     lblUsuarioLogado: TLabel;
+    Label2: TLabel;
+    IDEMPRESA: TLabel;
     procedure SpeedButton1Click(Sender: TObject);
     procedure btnParametrosClick(Sender: TObject);
     procedure FormShow(Sender: TObject);
@@ -43,6 +45,8 @@ type
     procedure btn_ReportsClick(Sender: TObject);
     procedure SpeedButton5Click(Sender: TObject);
     procedure SpeedButton6Click(Sender: TObject);
+    procedure btnVeiculosClick(Sender: TObject);
+    procedure btnPessoasClick(Sender: TObject);
   private
     procedure prc_retrair_menu;
     { Private declarations }
@@ -59,12 +63,28 @@ implementation
 {$R *.dfm}
 
 uses uMovimentacao, uConfigurarServidor, uListaUsuario,
-  System.IniFiles, uListaEmpresa, uDM;
+  System.IniFiles, uListaEmpresa, uDM, uErro, uListagemVeiculos,
+  uListagemPessoa;
 
 procedure TfrmPrincipal.FormShow(Sender: TObject);
+Var
+  erro : TfrmErro;
 begin
   prc_retrair_menu;
-  //lEmpresa.Caption := DM.qEmpresaNOMEFANTASIA.AsString;
+  try
+    DM.qUserEmpresa.Open;
+     except
+      on E: Exception do
+      begin
+        erro := TfrmErro.Create(Self);
+        erro.Memo1.Lines.Text := 'Erro na '+E.Message;
+        erro.ShowModal;
+      end;
+   end;
+ lblEmpresa.Caption := DM.qUserEmpresaNOMEFANTASIA.AsString;
+ lblUsuarioLogado.Caption := DM.qUserEmpresaUSERNAME.AsString;
+ IDEMPRESA.Caption := IntToStr(DM.qUserEmpresaIDEMPRESA.Value);
+
 end;
 
 procedure TfrmPrincipal.prc_retrair_menu;
@@ -159,6 +179,41 @@ frmMovimentacao.Parent := pnlFundo;
 frmMovimentacao.Align := alClient;
 frmMovimentacao.BorderStyle := bsNone;
 frmMovimentacao.Show;
+end;
+
+procedure TfrmPrincipal.btnPessoasClick(Sender: TObject);
+var
+  pessoa : TfrmListagemPessoa;
+begin
+if not Assigned(pessoa) then
+begin
+  pessoa := TfrmListagemPessoa.Create(Self);
+  pessoa.Parent      := pnlFundo;
+  pessoa.Align       := alClient;
+  pessoa.BorderStyle := bsNone;
+  pessoa.Show;
+  with DM.qPessoa do
+  Begin
+    if active = True then close;
+    ParamByName('IDEMPRESA').Value := DM.qUserEmpresaIDEMPRESA.Value;
+    Open;
+  End;
+
+end;
+end;
+
+procedure TfrmPrincipal.btnVeiculosClick(Sender: TObject);
+var
+  veiculo : TfrmListagemVeiculos;
+begin
+if not Assigned(veiculo) then
+begin
+  veiculo := TfrmListagemVeiculos.Create(Self);
+  veiculo.Parent      := pnlFundo;
+  veiculo.Align       := alClient;
+  veiculo.BorderStyle := bsNone;
+  veiculo.Show;
+end;
 end;
 
 procedure TfrmPrincipal.btn_movimentacaoClick(Sender: TObject);

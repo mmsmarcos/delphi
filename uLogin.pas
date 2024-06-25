@@ -46,7 +46,7 @@ implementation
 
 {$R *.dfm}
 
-uses uPrincipal, System.IniFiles;
+uses uPrincipal, System.IniFiles, uDM;
 
 
 

@@ -1,0 +1,274 @@
+object frmConsultaPessoa: TfrmConsultaPessoa
+  Left = 0
+  Top = 0
+  BorderIcons = [biSystemMenu]
+  Caption = 'Listagem de Pessoas'
+  ClientHeight = 517
+  ClientWidth = 985
+  Color = clBtnFace
+  Font.Charset = DEFAULT_CHARSET
+  Font.Color = clWindowText
+  Font.Height = -12
+  Font.Name = 'Segoe UI'
+  Font.Style = []
+  Position = poScreenCenter
+  OnShow = FormShow
+  TextHeight = 15
+  object Panel1: TPanel
+    Left = 0
+    Top = 0
+    Width = 985
+    Height = 97
+    Align = alTop
+    TabOrder = 0
+    ExplicitWidth = 979
+    object SpeedButton1: TSpeedButton
+      Left = 543
+      Top = 38
+      Width = 32
+      Height = 23
+      Glyph.Data = {
+        42040000424D4204000000000000420000002800000010000000100000000100
+        20000300000000040000130B0000130B000000000000000000000000FF0000FF
+        0000FF0000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000069B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF69B500FF69B500FF69B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF000000000000000069B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF69B500FF69B500FF69B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF000000000000000069B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF69B500FF69B500FF69B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF000000000000000069B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FFFFFFFFFFFFFFFFFF69B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF000000000000000069B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FFFFFFFFFFFFFFFFFF69B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF000000000000000069B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FFFFFFFFFFFFFFFFFF69B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF000000000000000069B500FF69B500FF69B500FFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF69B500FF69B500FF69B5
+        00FF000000000000000069B500FF69B500FF69B500FFFFFFFFFFFFFFFFFFFFFF
+        FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF69B500FF69B500FF69B5
+        00FF000000000000000069B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FFFFFFFFFFFFFFFFFF69B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF000000000000000069B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FFFFFFFFFFFFFFFFFF69B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF000000000000000069B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FFFFFFFFFFFFFFFFFF69B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF000000000000000069B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF69B500FF69B500FF69B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF000000000000000069B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF69B500FF69B500FF69B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF000000000000000069B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF69B500FF69B500FF69B500FF69B500FF69B500FF69B500FF69B500FF69B5
+        00FF000000000000000000000000000000000000000000000000000000000000
+        0000000000000000000000000000000000000000000000000000000000000000
+        000000000000}
+      Layout = blGlyphBottom
+      OnClick = SpeedButton1Click
+    end
+    object cbxItemTabela: TComboBox
+      Left = 36
+      Top = 38
+      Width = 145
+      Height = 23
+      TabOrder = 0
+      Text = 'cbxItemTabela'
+    end
+    object edtPesquisa: TEdit
+      Left = 196
+      Top = 38
+      Width = 341
+      Height = 23
+      TabOrder = 1
+      OnChange = edtPesquisaChange
+    end
+  end
+  object DBGrid1: TDBGrid
+    Left = 0
+    Top = 97
+    Width = 985
+    Height = 420
+    Align = alClient
+    DataSource = dsConsultaPessoa
+    Options = [dgTitles, dgIndicator, dgColumnResize, dgColLines, dgRowLines, dgTabs, dgRowSelect, dgTitleClick, dgTitleHotTrack]
+    TabOrder = 1
+    TitleFont.Charset = DEFAULT_CHARSET
+    TitleFont.Color = clWindowText
+    TitleFont.Height = -12
+    TitleFont.Name = 'Segoe UI'
+    TitleFont.Style = []
+    OnDblClick = DBGrid1DblClick
+    Columns = <
+      item
+        Expanded = False
+        FieldName = 'IDEMPRESA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'IDPESSOA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'IDTIPO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'DESCRICAO'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'NOME'
+        Width = 300
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'CPF'
+        Width = 120
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'RG'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'IDVEICULO'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'PLACA'
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'RESPONSAVEL'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'EMAIL'
+        Width = 200
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'TELEFONE'
+        Width = 150
+        Visible = True
+      end
+      item
+        Expanded = False
+        FieldName = 'ATIVO'
+        Visible = True
+      end>
+  end
+  object qConsultaPessoa: TFDQuery
+    Connection = DM.fdConexao
+    SQL.Strings = (
+      
+        'SELECT t.IDEMPRESA, t.IDPESSOA , t.IDTIPO , t2.DESCRICAO , t.nom' +
+        'e,t.CPF,t.RG ,t.IDVEICULO , t3.PLACA, t.RESPONSAVEL , t.EMAIL , ' +
+        't.TELEFONE ,t.ativo '
+      
+        '  FROM TBPESSOA t JOIN TBTIPOPESSOA t2 ON t.IDEMPRESA = t2.IDEMP' +
+        'RESA AND t.IDTIPO = t2.IDTIPO '
+      
+        '              LEFT OUTER JOIN TBVEICULOS t3 ON t.IDEMPRESA = t3.' +
+        'IDEMPRESA AND t.IDVEICULO = t3.IDVEICULO '
+      ' WHERE  t.IDEMPRESA = :IDEMPRESA')
+    Left = 688
+    Top = 240
+    ParamData = <
+      item
+        Name = 'IDEMPRESA'
+        DataType = ftInteger
+        ParamType = ptInput
+      end>
+    object qConsultaPessoaIDEMPRESA: TIntegerField
+      FieldName = 'IDEMPRESA'
+      Origin = 'IDEMPRESA'
+      Required = True
+    end
+    object qConsultaPessoaIDPESSOA: TIntegerField
+      FieldName = 'IDPESSOA'
+      Origin = 'IDPESSOA'
+      ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
+      Required = True
+    end
+    object qConsultaPessoaIDTIPO: TIntegerField
+      FieldName = 'IDTIPO'
+      Origin = 'IDTIPO'
+      Required = True
+    end
+    object qConsultaPessoaDESCRICAO: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'DESCRICAO'
+      Origin = 'DESCRICAO'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 100
+    end
+    object qConsultaPessoaNOME: TStringField
+      FieldName = 'NOME'
+      Origin = 'NOME'
+      Required = True
+      Size = 100
+    end
+    object qConsultaPessoaCPF: TStringField
+      FieldName = 'CPF'
+      Origin = 'CPF'
+      Size = 11
+    end
+    object qConsultaPessoaRG: TStringField
+      FieldName = 'RG'
+      Origin = 'RG'
+      Size = 100
+    end
+    object qConsultaPessoaIDVEICULO: TIntegerField
+      FieldName = 'IDVEICULO'
+      Origin = 'IDVEICULO'
+    end
+    object qConsultaPessoaPLACA: TStringField
+      AutoGenerateValue = arDefault
+      FieldName = 'PLACA'
+      Origin = 'PLACA'
+      ProviderFlags = []
+      ReadOnly = True
+      Size = 10
+    end
+    object qConsultaPessoaRESPONSAVEL: TStringField
+      FieldName = 'RESPONSAVEL'
+      Origin = 'RESPONSAVEL'
+      Size = 100
+    end
+    object qConsultaPessoaEMAIL: TStringField
+      FieldName = 'EMAIL'
+      Origin = 'EMAIL'
+      Size = 100
+    end
+    object qConsultaPessoaTELEFONE: TStringField
+      FieldName = 'TELEFONE'
+      Origin = 'TELEFONE'
+      Size = 100
+    end
+    object qConsultaPessoaATIVO: TSmallintField
+      FieldName = 'ATIVO'
+      Origin = 'ATIVO'
+      Required = True
+    end
+  end
+  object dsConsultaPessoa: TDataSource
+    DataSet = qConsultaPessoa
+    Left = 792
+    Top = 240
+  end
+end

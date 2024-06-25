@@ -101,7 +101,39 @@ begin
       End
     end else //Alterar
           Begin
+          Try
+            with qEmpresa do
+              Begin
+                Close;
+                SQL.Clear;
+                SQL.Add('UPDATE TBEMPRESA SET RAZAOSOCIAL = :RAZAOSOCIAL, NOMEFANTASIA = :NOMEFANTASIA, EMAIL = :EMAIL, TELEFONE = :TELEFONE, ATIVO = :ATIVO '+
+                        ' WHERE IDEMPRESA = '+ IntToStr(DM.qEmpresaIDEMPRESA.AsInteger));
+                ParamByName('RAZAOSOCIAL').Value  := edtRazaoSocial.Text;
+                ParamByName('NOMEFANTASIA').Value := edtNomeFantasia.Text;
+                ParamByName('EMAIL').Value        := edtEmail.Text;
+                ParamByName('TELEFONE').Value     := edtTelefone.Text;
+                if chkAtivo.Checked = True then ativo := 1 else ativo := 0;
+                ParamByName('ATIVO').Value        :=  ativo;
+                ExecSQL;
+                OK := TfrmOk.Create(Self);
+                OK.ShowModal;
 
+               if DM.qEmpresa.Active = True then
+               begin
+                DM.qEmpresa.Close;
+                DM.qEmpresa.Open;
+               end else DM.qEmpresa.Open;
+
+              end;
+                   except
+                      on E: Exception do
+                  begin
+                    erro := TfrmErro.Create(Self);
+                    erro.Memo1.Lines.Text := 'Erro ao tentar salvar Usuário. '+E.Message;
+                    erro.ShowModal;
+                  end;
+
+              End;
           End;
 
 end;
@@ -114,12 +146,15 @@ begin
   if acao = 2 then
     Begin
       Try
-       if DM.qEmpresaATIVO.AsInteger = 1 Then ativo := True else ativo := False;
+       if DM.qEmpresaATIVO.AsInteger = 1 then ativo := true else ativo := false;
+
        edtRazaoSocial.Text  := DM.qEmpresaRAZAOSOCIAL.Value;
        edtNomeFantasia.Text := DM.qEmpresaNOMEFANTASIA.Value;
        edtCnpj.Text         := DM.qEmpresaCGC.Value;
        edtEmail.Text        := DM.qEmpresaEMAIL.Value;
+       edtTelefone.Text     := DM.qEmpresaTELEFONE.Value;
        chkAtivo.Checked     := ativo;
+       edtCnpj.Enabled      := False;
 
       except on E: Exception do
         begin

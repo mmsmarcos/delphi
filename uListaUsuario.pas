@@ -54,6 +54,7 @@ begin
 
   vPrint := TfrmImpressao.Create(nil);
   vPrint.Show;
+  vPrint.Tag := 1; //Usuário
 
 end;
 

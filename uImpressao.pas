@@ -106,13 +106,13 @@ Var
   I : Integer;
 begin
 
-  if qUsuariosImpressao.Active = False then
-    qUsuariosImpressao.Active := True;
+    if qUsuariosImpressao.Active = False then
+      qUsuariosImpressao.Active := True;
 
-  for I := 0 to qUsuariosImpressao.FieldCount -1 do
-  cxbOrdenacao.Items.Add(qUsuariosImpressao.Fields[i].DisplayName);
+    for I := 0 to qUsuariosImpressao.FieldCount -1 do
+    cxbOrdenacao.Items.Add(qUsuariosImpressao.Fields[i].DisplayName);
 
-  cxbOrdenacao.ItemIndex := 0;
-end;
+    cxbOrdenacao.ItemIndex := 0;
 
+  end;
 end.

@@ -23,7 +23,7 @@ object frmCadastroEmpresa: TfrmCadastroEmpresa
     Align = alClient
     BevelOuter = bvLowered
     TabOrder = 0
-    ExplicitWidth = 737
+    ExplicitWidth = 746
     ExplicitHeight = 421
     object Label1: TLabel
       Left = 32
@@ -120,6 +120,7 @@ object frmCadastroEmpresa: TfrmCadastroEmpresa
       Width = 425
       Height = 23
       Hint = 'Nome do Usu'#225'rio'
+      CharCase = ecUpperCase
       ParentShowHint = False
       ShowHint = True
       TabOrder = 0
@@ -142,6 +143,7 @@ object frmCadastroEmpresa: TfrmCadastroEmpresa
       Width = 425
       Height = 23
       Hint = 'E-mail'
+      CharCase = ecUpperCase
       ParentShowHint = False
       ShowHint = True
       TabOrder = 2

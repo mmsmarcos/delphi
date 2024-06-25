@@ -1,0 +1,89 @@
+unit uEstados;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Vcl.ExtCtrls, Data.DB, Vcl.Grids,
+  Vcl.DBGrids, Vcl.StdCtrls;
+
+type
+  TfrmEstados = class(TForm)
+    Panel1: TPanel;
+    Panel2: TPanel;
+    DBGrid1: TDBGrid;
+    edtPesquisa: TEdit;
+    cbxItemTabela: TComboBox;
+    procedure FormShow(Sender: TObject);
+    procedure edtPesquisaChange(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmEstados: TfrmEstados;
+
+
+implementation
+
+{$R *.dfm}
+
+uses uDM, uErro, uCadastroVeiculos;
+
+procedure TfrmEstados.DBGrid1DblClick(Sender: TObject);
+Var
+  veiculo : TfrmCadastroVeiculos;
+begin
+  if Tag = 1 then //Chamada pela tela de Veiculos
+    begin
+    {
+      veiculo := TfrmCadastroVeiculos.Create(Self);
+      veiculo.edtUFVeiculo.Text := DM.qEstadosCODETD.Value;
+      veiculo.edtUFVeiculoDesc.Text := DM.qEstadosNOME.Value;
+    }
+      frmCadastroVeiculos.edtUFVeiculo.Text := DM.qEstadosCODETD.Value;
+      frmCadastroVeiculos.edtUFVeiculoDesc.Text := DM.qEstadosNOME.Value;
+      Close;
+    end;
+end;
+
+procedure TfrmEstados.edtPesquisaChange(Sender: TObject);
+var
+  erro : TfrmErro;
+begin
+try
+  with DM.qEstados do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT CODETD, NOME FROM TBESTADOS WHERE '+cbxItemTabela.Text+' LIKE ''%'+edtPesquisa.Text+'%''');
+    Open;
+  end;
+
+  except
+    on E: Exception do
+    begin
+    erro := TfrmErro.Create(Self);
+    erro.Memo1.Lines.Text := 'Erro ao consultar os dados de Estados: '+E.Message;
+    erro.ShowModal;
+    end;
+end;
+end;
+
+procedure TfrmEstados.FormShow(Sender: TObject);
+Var
+  I : Integer;
+begin
+
+  DM.qEstados.Active := true;
+
+  for I := 0 to DM.qEstados.FieldCount -1 do
+  cbxItemTabela.Items.Add(DM.qEstados.Fields[i].DisplayName);
+
+  cbxItemTabela.ItemIndex := 0;
+end;
+
+end.

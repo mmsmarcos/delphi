@@ -1,0 +1,98 @@
+unit uConsultaVeiculo;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.Grids, Vcl.DBGrids,
+  Vcl.ExtCtrls, Vcl.StdCtrls;
+
+type
+  TfrmConsultaVeiculo = class(TForm)
+    Panel1: TPanel;
+    DBGrid1: TDBGrid;
+    cbxItemTabela: TComboBox;
+    edtPesquisa: TEdit;
+    procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure FormShow(Sender: TObject);
+    procedure edtPesquisaChange(Sender: TObject);
+    procedure DBGrid1DblClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmConsultaVeiculo: TfrmConsultaVeiculo;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM, uPrincipal, uErro, uCadastroPessoa, uMovimentacao;
+
+procedure TfrmConsultaVeiculo.DBGrid1DblClick(Sender: TObject);
+begin
+  if Tag = 1 then
+    begin
+      if Assigned(frmCadastroPessoa) then
+      frmCadastroPessoa.edtVeiculo.Text     := IntToStr(DM.qConsultaVeiculosIDVEICULO.Value);
+      frmCadastroPessoa.edtVeiculo.Text     := IntToStr(DM.qConsultaVeiculosIDVEICULO.Value);
+      frmCadastroPessoa.edtVeiculoDesc.Text := DM.qConsultaVeiculosPLACA.Value;
+      Close;
+    end
+      else
+        begin
+        if Assigned(frmMovimentacao) then
+           frmMovimentacao.edtIDVeiculo.Text := IntToStr(DM.qConsultaVeiculosIDVEICULO.Value);
+           frmMovimentacao.edtIDVeiculo.Text := IntToStr(DM.qConsultaVeiculosPLACA.Value);
+           Close;
+        end;
+end;
+
+procedure TfrmConsultaVeiculo.edtPesquisaChange(Sender: TObject);
+var
+  erro : TfrmErro;
+begin
+try
+  with DM.qConsultaVeiculos do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT IDEMPRESA , IDVEICULO , PLACA, MARCA, MODELO, COR, ANOFAB , ANOMOD , ATIVO FROM TBVEICULOS WHERE '+cbxItemTabela.Text+' LIKE ''%'+edtPesquisa.Text+'%'' AND IDEMPRESA = '+frmPrincipal.IDEMPRESA.Caption);
+    Open;
+  end;
+
+  except
+    on E: Exception do
+    begin
+    erro := TfrmErro.Create(Self);
+    erro.Memo1.Lines.Text := 'Erro ao consultar os dados de Estados: '+E.Message;
+    erro.ShowModal;
+    end;
+end;
+end;
+
+procedure TfrmConsultaVeiculo.FormClose(Sender: TObject;
+  var Action: TCloseAction);
+begin
+  Action := caFree;
+end;
+
+procedure TfrmConsultaVeiculo.FormShow(Sender: TObject);
+Var
+  I : Integer;
+begin
+
+  DM.qConsultaVeiculos.ParamByName('IDEMPRESA').Value := frmPrincipal.IDEMPRESA.Caption;
+  DM.qConsultaVeiculos.Open;
+
+  for I := 0 to DM.qConsultaVeiculos.FieldCount -1 do
+  cbxItemTabela.Items.Add(DM.qConsultaVeiculos.Fields[i].DisplayName);
+
+  cbxItemTabela.ItemIndex := 0;
+
+end;
+
+end.

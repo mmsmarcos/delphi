@@ -128,13 +128,13 @@ if chkAtivo.Checked = True then ativo := 1 else ativo := 0;
      SQL.Add('INSERT INTO TBUSUARIO (USERNAME, NOME, EMAIL, PASSWORD, ATIVO, IDPERFIL, RECCREATEDBY, RECCREATEDON) VALUES'+
               '(:USERNAME, :NOME, :EMAIL, :PASSWORD, :ATIVO, :IDPERFIL, :RECCREATEDBY, :RECCREATEDON)');
 
-     ParamByName('USERNAME').Value := edtLogin.Text;
-     ParamByName('NOME').Value := edtNome.Text;
-     ParamByName('EMAIL').Value := edtEmail.Text;
-     ParamByName('PASSWORD').Value := MD5(edtEmail.Text);
-     ParamByName('ATIVO').Value := ativo;
-     ParamByName('IDPERFIL').Value := qGrupoPermissaoIDPERFIL.AsInteger;
-     ParamByName('RECCREATEDBY').Value :=  'teste';//formPrincipal.lblUsuarioLogado.Caption;
+     ParamByName('USERNAME').Value     := edtLogin.Text;
+     ParamByName('NOME').Value         := edtNome.Text;
+     ParamByName('EMAIL').Value        := edtEmail.Text;
+     ParamByName('PASSWORD').Value     := MD5(edtEmail.Text);
+     ParamByName('ATIVO').Value        := ativo;
+     ParamByName('IDPERFIL').Value     := qGrupoPermissaoIDPERFIL.AsInteger;
+     ParamByName('RECCREATEDBY').Value :=  formPrincipal.lblUsuarioLogado.Caption;
      ParamByName('RECCREATEDON').Value := Now;
 
      ExecSQL;

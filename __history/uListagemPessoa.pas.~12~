@@ -1,0 +1,115 @@
+unit uListagemPessoa;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Grids,
+  Vcl.DBGrids, Vcl.Buttons, Vcl.ExtCtrls;
+
+type
+  TfrmListagemPessoa = class(TForm)
+    pnl_Top: TPanel;
+    SpeedButton1: TSpeedButton;
+    cbxItemTabela: TComboBox;
+    edtPesquisa: TEdit;
+    DBGrid1: TDBGrid;
+    pnl_Button: TPanel;
+    btnInserir: TButton;
+    btnAlterar: TButton;
+    btnVoltar: TButton;
+    btnImprimir: TButton;
+    procedure btnInserirClick(Sender: TObject);
+    procedure btnVoltarClick(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure edtPesquisaChange(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmListagemPessoa: TfrmListagemPessoa;
+
+implementation
+
+{$R *.dfm}
+
+uses uCadastroPessoa, uDM, uErro, uPrincipal;
+
+procedure TfrmListagemPessoa.btnInserirClick(Sender: TObject);
+begin
+  Application.CreateForm(TfrmCadastroPessoa, frmCadastroPessoa);
+  frmCadastroPessoa.Tag := 1; //Incluir
+  frmCadastroPessoa.ShowModal;
+end;
+
+procedure TfrmListagemPessoa.btnVoltarClick(Sender: TObject);
+begin
+Close;
+frmListagemPessoa := nil;
+end;
+
+procedure TfrmListagemPessoa.edtPesquisaChange(Sender: TObject);
+var
+  erro : TfrmErro;
+begin
+try
+  with DM.qPessoa do
+  begin
+    Close;
+    SQL.Clear;
+    SQL.Add('SELECT t.IDEMPRESA, t.IDPESSOA , t.IDTIPO , t2.DESCRICAO , t.nome,t.CPF,t.RG ,t.IDVEICULO , t3.PLACA, t.RESPONSAVEL , t.EMAIL , t.TELEFONE ,t.ativo '+
+            ' FROM TBPESSOA t JOIN TBTIPOPESSOA t2 ON t.IDEMPRESA = t2.IDEMPRESA AND t.IDTIPO = t2.IDTIPO '+
+            '      LEFT OUTER JOIN TBVEICULOS t3 ON t.IDEMPRESA = t3.IDEMPRESA AND t.IDVEICULO = t3.IDVEICULO '+
+            ' WHERE  t.IDEMPRESA = '+frmPrincipal.IDEMPRESA.Caption+' AND '+cbxItemTabela.Text+' LIKE ''%'+edtPesquisa.Text+'%''');
+    Open;
+  end;
+
+  except
+    on E: Exception do
+    begin
+    erro := TfrmErro.Create(Self);
+    erro.Memo1.Lines.Text := 'Erro ao consultar os dados de Usuário: '+E.Message;
+    erro.ShowModal;
+    end;
+end;
+end;
+
+procedure TfrmListagemPessoa.FormShow(Sender: TObject);
+Var
+  I : Integer;
+begin
+
+  if DM.qPessoa.Active = false then
+    begin
+      DM.qPessoa.ParamByName('IDEMPRESA').Value := frmPrincipal.IDEMPRESA.Caption;
+      DM.qPessoa.Open;
+    end else
+          begin
+            DM.qPessoa.Close;
+            DM.qPessoa.ParamByName('IDEMPRESA').Value := frmPrincipal.IDEMPRESA.Caption;
+            DM.qPessoa.Open;
+          end;
+
+
+  for I := 0 to DM.qPessoa.FieldCount -1 do
+  cbxItemTabela.Items.Add(DM.qPessoa.Fields[i].DisplayName);
+  cbxItemTabela.ItemIndex := 0;
+
+end;
+
+procedure TfrmListagemPessoa.SpeedButton1Click(Sender: TObject);
+begin
+if edtPesquisa.Text <> EmptyStr then edtPesquisa.Clear;
+
+if DM.qPessoa.Active = true then
+  begin
+    DM.qPessoa.Close;
+    DM.qPessoa.Open;
+  end else DM.qPessoa.Open;
+end;
+
+end.

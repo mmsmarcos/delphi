@@ -3,8 +3,8 @@ object frmPrincipal: TfrmPrincipal
   Top = 0
   BorderStyle = bsSingle
   Caption = 'Sistema Sabi'#225' - M'#243'dulo Portaria'
-  ClientHeight = 699
-  ClientWidth = 1070
+  ClientHeight = 674
+  ClientWidth = 1355
   Color = clBtnFace
   Font.Charset = ANSI_CHARSET
   Font.Color = clWindowText
@@ -19,25 +19,25 @@ object frmPrincipal: TfrmPrincipal
   object pnlFundo: TPanel
     Left = 0
     Top = 0
-    Width = 1070
-    Height = 699
+    Width = 1355
+    Height = 674
     Align = alClient
     BorderStyle = bsSingle
     Color = clActiveBorder
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 1064
-    ExplicitHeight = 690
+    ExplicitWidth = 1349
+    ExplicitHeight = 665
     object pnlLateral: TPanel
       Left = 1
       Top = 49
       Width = 160
-      Height = 645
+      Height = 620
       Align = alLeft
       Color = clMenu
       ParentBackground = False
       TabOrder = 0
-      ExplicitHeight = 636
+      ExplicitHeight = 611
       object btnconfiguracoes: TSpeedButton
         Tag = 10
         Left = 1
@@ -1287,6 +1287,7 @@ object frmPrincipal: TfrmPrincipal
             FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
             FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00}
           Margin = 20
+          OnClick = btnPessoasClick
           ExplicitLeft = 1
           ExplicitTop = -5
           ExplicitWidth = 156
@@ -1407,6 +1408,7 @@ object frmPrincipal: TfrmPrincipal
             FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF
             FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF00}
           Margin = 20
+          OnClick = btnVeiculosClick
           ExplicitLeft = 1
           ExplicitTop = 55
           ExplicitWidth = 156
@@ -1544,13 +1546,13 @@ object frmPrincipal: TfrmPrincipal
     object pnlTopo: TPanel
       Left = 1
       Top = 1
-      Width = 1064
+      Width = 1349
       Height = 48
       Align = alTop
       Color = clWhite
       ParentBackground = False
       TabOrder = 1
-      ExplicitWidth = 1058
+      ExplicitWidth = 1343
       object SpeedButton1: TSpeedButton
         Left = 1
         Top = 1
@@ -1733,11 +1735,36 @@ object frmPrincipal: TfrmPrincipal
         ParentFont = False
       end
       object lblUsuarioLogado: TLabel
-        Left = 1120
-        Top = 16
+        AlignWithMargins = True
+        Left = 1241
+        Top = 4
         Width = 104
-        Height = 17
+        Height = 40
+        Align = alRight
+        Alignment = taCenter
         Caption = 'lblUsuarioLogado'
+        Layout = tlCenter
+        ExplicitHeight = 17
+      end
+      object Label2: TLabel
+        AlignWithMargins = True
+        Left = 1187
+        Top = 4
+        Width = 48
+        Height = 40
+        Align = alRight
+        Alignment = taCenter
+        Caption = 'Usu'#225'rio:'
+        Layout = tlCenter
+        ExplicitHeight = 17
+      end
+      object IDEMPRESA: TLabel
+        Left = 712
+        Top = 16
+        Width = 68
+        Height = 17
+        Caption = 'IDEMPRESA'
+        Visible = False
       end
     end
   end

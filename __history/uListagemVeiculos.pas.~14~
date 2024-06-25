@@ -1,0 +1,95 @@
+unit uListagemVeiculos;
+
+interface
+
+uses
+  Winapi.Windows, Winapi.Messages, System.SysUtils, System.Variants, System.Classes, Vcl.Graphics,
+  Vcl.Controls, Vcl.Forms, Vcl.Dialogs, Data.DB, Vcl.StdCtrls, Vcl.Buttons,
+  Vcl.Grids, Vcl.DBGrids, Vcl.ExtCtrls;
+
+type
+  TfrmListagemVeiculos = class(TForm)
+    pnl_Button: TPanel;
+    btnInserir: TButton;
+    btnAlterar: TButton;
+    btnVoltar: TButton;
+    btnImprimir: TButton;
+    DBGrid1: TDBGrid;
+    pnl_Top: TPanel;
+    SpeedButton1: TSpeedButton;
+    cbxItemTabela: TComboBox;
+    edtPesquisa: TEdit;
+    procedure FormShow(Sender: TObject);
+    procedure btnVoltarClick(Sender: TObject);
+    procedure btnInserirClick(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure DBGrid1TitleClick(Column: TColumn);
+    procedure btnAlterarClick(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  frmListagemVeiculos: TfrmListagemVeiculos;
+
+implementation
+
+{$R *.dfm}
+
+uses uDM, uOk, uErro, uCadastroVeiculos;
+
+procedure TfrmListagemVeiculos.btnAlterarClick(Sender: TObject);
+begin
+  Application.CreateForm(TfrmCadastroVeiculos, frmCadastroVeiculos);
+  frmCadastroVeiculos.ShowModal;
+  frmCadastroVeiculos.Tag := 2; //Alterar
+end;
+
+procedure TfrmListagemVeiculos.btnInserirClick(Sender: TObject);
+begin
+  Application.CreateForm(TfrmCadastroVeiculos, frmCadastroVeiculos);
+  frmCadastroVeiculos.ShowModal;
+  frmCadastroVeiculos.Tag := 1; //Incluir
+end;
+
+procedure TfrmListagemVeiculos.btnVoltarClick(Sender: TObject);
+begin
+Close;
+frmListagemVeiculos := nil;
+end;
+
+procedure TfrmListagemVeiculos.DBGrid1TitleClick(Column: TColumn);
+begin
+  if DM.qVeiculos.IndexFieldNames = Column.FieldName then
+    DM.qVeiculos.IndexFieldNames := Column.FieldName + ':D'
+  else
+    DM.qVeiculos.IndexFieldNames := Column.FieldName;
+end;
+
+procedure TfrmListagemVeiculos.FormShow(Sender: TObject);
+Var
+  I : Integer;
+begin
+
+  DM.qVeiculos.Active := true;
+
+  for I := 0 to DM.qVeiculos.FieldCount -1 do
+  cbxItemTabela.Items.Add(DM.qVeiculos.Fields[i].DisplayName);
+  cbxItemTabela.ItemIndex := 0;
+
+end;
+
+procedure TfrmListagemVeiculos.SpeedButton1Click(Sender: TObject);
+begin
+if edtPesquisa.Text <> EmptyStr then edtPesquisa.Clear;
+
+if DM.qVeiculos.Active = true then
+  begin
+    DM.qVeiculos.Close;
+    DM.qVeiculos.Open;
+  end else DM.qVeiculos.Open;
+end;
+
+end.

@@ -1,0 +1,44 @@
+program Scopo;
+
+uses
+  Vcl.Forms,
+  uPrincipal in 'uPrincipal.pas' {frmPrincipal},
+  uLogin in 'uLogin.pas' {frmLogin},
+  uMovimentacao in 'uMovimentacao.pas' {frmMovimentacao},
+  uListaUsuario in 'uListaUsuario.pas' {frmListaUsuario},
+  uFuncoes in 'uFuncoes.pas',
+  uCadastroUsuario in 'uCadastroUsuario.pas' {frmCadastroUsuario},
+  uAvisos in 'uAvisos.pas' {frmAvisos},
+  uErro in 'uErro.pas' {frmErro},
+  uOk in 'uOk.pas' {frmOk},
+  uImpressao in 'uImpressao.pas' {frmImpressao},
+  uListaEmpresa in 'uListaEmpresa.pas' {frmListaEmpresa},
+  uDM in 'uDM.pas' {TDataModule: TDataModule},
+  uCadastroEmpresa in 'uCadastroEmpresa.pas' {frmCadastroEmpresa},
+  uListagemVeiculos in 'uListagemVeiculos.pas' {frmListagemVeiculos},
+  uCadastroVeiculos in 'uCadastroVeiculos.pas' {frmCadastroVeiculos},
+  uEstados in 'uEstados.pas' {frmEstados},
+  uListagemPessoa in 'uListagemPessoa.pas' {frmListagemPessoa},
+  uCadastroPessoa in 'uCadastroPessoa.pas' {frmCadastroPessoa},
+  uTipoPessoa in 'uTipoPessoa.pas' {frmTipoPessoa},
+  uConsultaVeiculo in 'uConsultaVeiculo.pas' {frmConsultaVeiculo},
+  uConsultaPessoa in 'uConsultaPessoa.pas' {frmConsultaPessoa},
+  uConsultaPortaria in 'uConsultaPortaria.pas' {frmPortaria};
+
+{$R *.res}
+
+begin
+  Application.Initialize;
+  Application.MainFormOnTaskbar := True;
+  frmLogin := TfrmLogin.Create(nil);
+  frmLogin.ShowModal;
+
+  Application.CreateForm(TDM, DM);
+  Application.CreateForm(TfrmPrincipal, frmPrincipal);
+  Application.CreateForm(TfrmLogin, frmLogin);
+  Application.CreateForm(TfrmPortaria, frmPortaria);
+  frmLogin.Hide;
+  frmLogin.Free;
+
+  Application.Run;
+end.
